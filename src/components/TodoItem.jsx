@@ -5,15 +5,42 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 
-function TodoItem({ title, description }) {
+function TodoItem({
+  title,
+  description,
+  onDelete,
+  isNotComplete,
+  isComplete,
+  onToggleNotComplete,
+  onToggleComplete,
+}) {
   return (
-    <div className=" border border-gray-300 p-4 w-[400px] my-2 rounded-lg shadow-md bg-white">
-      <div className=" flex justify-between  mb-2 bg-gray-100 p-2 rounded-lg">
-        <span className=" text-lg font-medium">{title}</span>
-        <div className=" flex gap-2 text-lg cursor-pointer">
-          <CheckCircleOutlined className="hover:text-blue-500 hover:scale-110 transition" />
-          <CloseCircleOutlined className="hover:text-red-500 hover:scale-110 transition" />
-          <DeleteOutlined className="hover:text-gray-500 hover:scale-110 transition" />
+    <div className="flex flex-col bg-white w-full max-w-lg p-4 rounded-lg shadow-md border border-gray-300 my-2">
+      <div className="flex justify-between items-center bg-gray-100 p-3 rounded-lg">
+        <span
+          className={`text-lg font-medium ${
+            isNotComplete
+              ? "line-through text-red-400"
+              : isComplete
+              ? "text-green-400"
+              : ""
+          }`}
+        >
+          {title}
+        </span>
+        <div className=" flex gap-3 text-lg">
+          <CheckCircleOutlined
+            className="hover:text-blue-500 hover:scale-110 transition"
+            onClick={onToggleComplete}
+          />
+          <CloseCircleOutlined
+            className="hover:text-red-500 hover:scale-110 transition"
+            onClick={onToggleNotComplete}
+          />
+          <DeleteOutlined
+            className="hover:text-gray-500 hover:scale-110 transition"
+            onClick={onDelete}
+          />
         </div>
       </div>
       {description && (
