@@ -18,7 +18,7 @@ function App() {
     };
 
     return fetch(
-      "https://v1.nocodeapi.com/denizmetin/google_sheets/XHBDwKGRXGTIiOBU?tabId=Tablo1",
+      "https://v1.nocodeapi.com/bettermessi/google_sheets/NHtWcEtmCSYFQjIk?tabId=Sayfa1",
       requestOptions
     )
       .then((response) => response.text())
@@ -38,8 +38,9 @@ function App() {
   const addTodo = (todo) => {
     const newTodo = {
       ...todo,
-      isNotComplete: false,
-      isComplete: false,
+      Title: todo.title,
+      Description: todo.description,
+      Date: todo.date,
     };
 
     const updatedTodos = [...todos, newTodo];
@@ -62,11 +63,13 @@ function App() {
     };
 
     fetch(
-      "https://v1.nocodeapi.com/denizmetin/google_sheets/XHBDwKGRXGTIiOBU?tabId=Tablo1",
+      "https://v1.nocodeapi.com/bettermessi/google_sheets/NHtWcEtmCSYFQjIk?tabId=Sayfa1",
       requestOptions
     )
       .then((response) => response.json())
-      .then((result) => console.log("Google Sheets'e eklendi:", result))
+      .then((result) => {
+        return result;
+      })
       .catch((error) => console.log("Google Sheets hatası:", error));
   };
 
@@ -95,8 +98,8 @@ function App() {
     };
 
     fetch(
-      "https://v1.nocodeapi.com/denizmetin/google_sheets/XHBDwKGRXGTIiOBU?tabId=Tablo1&row_id=" +
-        { row_id },
+      "https://v1.nocodeapi.com/bettermessi/google_sheets/NHtWcEtmCSYFQjIk?tabId=Sayfa1&row_id=" +
+        row_id,
       requestOptions
     )
       .then((response) => response.text())
