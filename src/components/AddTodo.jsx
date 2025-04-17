@@ -25,7 +25,10 @@ function AddTodo({ onAddTodo, onSearch }) {
           className=" p-2 border rounded-lg flex-grow"
           placeholder="Görev Ara"
           value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+            onSearch(e.target.value);
+          }}
         />
         <Button
           className=" w-20"

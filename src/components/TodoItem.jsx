@@ -11,7 +11,6 @@ function TodoItem({
   description,
   date,
   onDelete,
-  isNotComplete,
   isComplete,
   onToggleNotComplete,
   onToggleComplete,
@@ -30,11 +29,9 @@ function TodoItem({
       >
         <span
           className={`text-lg font-medium ${
-            isNotComplete
+            isComplete === "FALSE"
               ? "line-through text-red-400"
-              : isComplete
-              ? "text-green-400"
-              : ""
+              : "text-green-400"
           }`}
         >
           {title}
