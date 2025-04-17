@@ -68,12 +68,10 @@ function App() {
 
   return (
     <div className="h-screen w-screen flex flex-col items-center bg-gray-100">
-      {/* Sticky AddTodo */}
       <div className="w-full max-w-xl sticky top-0 z-10 bg-gray-100 pt-6 pb-2">
         <AddTodo onAddTodo={addTodo} onSearch={handleSearch} />
       </div>
 
-      {/* Scrollable Todo List */}
       <div className=" w-full max-w-xl overflow-y-auto px-2 pb-2">
         {todosToDisplay.map((todo, index) => (
           <TodoItem
