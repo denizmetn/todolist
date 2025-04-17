@@ -19,10 +19,10 @@ function App() {
     }
   };
 
-  const handleSearch = (query, list = todos) => {
-    setSearching(query);
+  const handleSearch = (searchtext, list = todos) => {
+    setSearching(searchtext);
     const filtered = list.filter((todo) =>
-      todo.title.toLowerCase().includes(query.toLowerCase())
+      todo.title.toLowerCase().includes(searchtext.toLowerCase())
     );
     setFilteredTodos(filtered);
   };
@@ -77,6 +77,8 @@ function App() {
           <TodoItem
             key={index}
             title={todo.title}
+            description={todo.description}
+            date={todo.date}
             onDelete={() => deleteTodo(index)}
             onToggleNotComplete={() => toggleNotComplete(index)}
             isNotComplete={todo.isNotComplete}

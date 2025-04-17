@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { Button } from "antd";
 import { Input } from "antd";
+import { DatePicker } from "antd";
 
 const { TextArea } = Input;
 
 function NewTodo({ onAddTodo }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [date, setDate] = useState(null);
 
   const handleCreateTodo = () => {
     if (title.trim() && description.trim()) {
-      const newTodo = { title, description };
+      const newTodo = { title, description, date: date.format("YYYY-MM-DD") };
       onAddTodo(newTodo);
       setTitle("");
       setDescription("");
+      setDate(null);
     }
   };
 
@@ -34,6 +37,14 @@ function NewTodo({ onAddTodo }) {
         onChange={(e) => setDescription(e.target.value)}
         className="p-2 border rounded-lg w-full mb-4"
       />
+
+      <DatePicker
+        className="w-full mb-4"
+        value={date}
+        onChange={(value) => setDate(value)}
+        placeholder="Tarih Seçiniz"
+      />
+
       <Button
         className=" w-full bg-blue-500 text-white font-semibold rounded-lg py-2 hover:bg-blue-600 transition"
         onClick={handleCreateTodo}

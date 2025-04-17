@@ -1,4 +1,5 @@
-import React from "react";
+import TodoDetails from "./TodoDetails";
+import React, { useState } from "react";
 import {
   CheckCircleOutlined,
   DeleteOutlined,
@@ -8,15 +9,25 @@ import {
 function TodoItem({
   title,
   description,
+  date,
   onDelete,
   isNotComplete,
   isComplete,
   onToggleNotComplete,
   onToggleComplete,
 }) {
+  const [open, setOpen] = useState(false);
+
+  const toggle = () => {
+    setOpen((prev) => !prev);
+  };
+
   return (
     <div className="flex flex-col bg-white w-full max-w-lg p-4 rounded-lg shadow-md border border-gray-300 my-2">
-      <div className="flex justify-between items-center bg-gray-100 p-3 rounded-lg">
+      <div
+        className="flex justify-between items-center bg-gray-100 p-3 rounded-lg  cursor-pointer"
+        onClick={toggle}
+      >
         <span
           className={`text-lg font-medium ${
             isNotComplete
@@ -28,7 +39,10 @@ function TodoItem({
         >
           {title}
         </span>
-        <div className=" flex gap-3 text-lg">
+        <div
+          className=" flex gap-3 text-lg"
+          onClick={(e) => e.stopPropagation()}
+        >
           <CheckCircleOutlined
             className="hover:text-blue-500 hover:scale-110 transition"
             onClick={onToggleComplete}
@@ -43,9 +57,7 @@ function TodoItem({
           />
         </div>
       </div>
-      {description && (
-        <p className="text-sm text-gray-600 mt-2">{description}</p>
-      )}
+      {open && <TodoDetails description={description} date={date} />}
     </div>
   );
 }
