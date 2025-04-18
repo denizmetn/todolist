@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import AddTodo from "./components/AddTodo";
 import TodoItem from "./components/TodoItem";
+import Title from "antd/es/skeleton/Title";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -18,7 +19,7 @@ function App() {
     };
 
     return fetch(
-      "https://v1.nocodeapi.com/bettermessi/google_sheets/NHtWcEtmCSYFQjIk?tabId=Sayfa1",
+      "https://v1.nocodeapi.com/dinoden/google_sheets/DegVyBcMRMwymYeJ?tabId=Sayfa1",
       requestOptions
     )
       .then((response) => response.text())
@@ -63,7 +64,7 @@ function App() {
     };
 
     fetch(
-      "https://v1.nocodeapi.com/bettermessi/google_sheets/NHtWcEtmCSYFQjIk?tabId=Sayfa1",
+      "https://v1.nocodeapi.com/dinoden/google_sheets/DegVyBcMRMwymYeJ?tabId=Sayfa1",
       requestOptions
     )
       .then((response) => response.json())
@@ -98,7 +99,7 @@ function App() {
     };
 
     fetch(
-      "https://v1.nocodeapi.com/bettermessi/google_sheets/NHtWcEtmCSYFQjIk?tabId=Sayfa1&row_id=" +
+      "https://v1.nocodeapi.com/dinoden/google_sheets/DegVyBcMRMwymYeJ?tabId=Sayfa1&row_id=" +
         row_id,
       requestOptions
     )
@@ -139,6 +140,38 @@ function App() {
 
   const todosToDisplay = searching.trim() ? filteredTodos : todos;
 
+  const updateTodo = (newTodo) => {
+    const updatedTodos = todos.map((item) =>
+      item.row_id === newTodo.row_id
+        ? { ...item, Description: newTodo.description } // Açıklamayı güncelles
+        : item
+    );
+    setTodos(updatedTodos);
+    setFilteredTodos(updatedTodos);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+      method: "put",
+      headers: myHeaders,
+      redirect: "follow",
+      body: JSON.stringify({
+        row_id: newTodo.row_id,
+        Title: newTodo.title,
+        Description: newTodo.description,
+        Date: newTodo.date,
+        State: newTodo.State,
+      }),
+    };
+
+    fetch(
+      "https://v1.nocodeapi.com/dinoden/google_sheets/DegVyBcMRMwymYeJ?tabId=Sayfa1",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
+
   return (
     <div className="h-screen w-screen flex flex-col items-center bg-gray-100">
       <div className="w-full max-w-xl sticky top-0 z-10 bg-gray-100 pt-6 pb-2">
@@ -152,10 +185,12 @@ function App() {
             title={todo.Title}
             description={todo.Description}
             date={todo.Date}
+            row_id={todo.row_id}
             onDelete={() => deleteTodo(index)}
             onToggleNotComplete={() => toggleNotComplete(index)}
             isComplete={todo.State}
             onToggleComplete={() => toggleComplete(index)}
+            onSaveChanges={updateTodo}
           />
         ))}
       </div>

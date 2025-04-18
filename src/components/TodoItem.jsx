@@ -10,15 +10,27 @@ function TodoItem({
   title,
   description,
   date,
+  row_id,
   onDelete,
   isComplete,
   onToggleNotComplete,
   onToggleComplete,
+  onSaveChanges,
 }) {
   const [open, setOpen] = useState(false);
 
   const toggle = () => {
     setOpen((prev) => !prev);
+  };
+  const handleSave = (updatedDetails) => {
+    const updatedTodo = {
+      row_id, // row_id'yi ekleyin
+      title,
+      description: updatedDetails.description,
+      date,
+    };
+    onSaveChanges(updatedTodo); // Güncellenmiş todo'yu gönder
+    setOpen(false); // Detayları kapat
   };
 
   return (
@@ -54,7 +66,13 @@ function TodoItem({
           />
         </div>
       </div>
-      {open && <TodoDetails description={description} date={date} />}
+      {open && (
+        <TodoDetails
+          description={description}
+          date={date}
+          onSave={handleSave}
+        />
+      )}
     </div>
   );
 }
